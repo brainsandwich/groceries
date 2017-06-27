@@ -1,0 +1,11 @@
+{
+	"path" : "external",
+	"packages" :
+	[
+		{
+			"name" : "lofx",
+			"branch" : "master",
+			"origin" : "../lofx"
+		}
+	]
+}
