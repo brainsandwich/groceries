@@ -16,12 +16,9 @@ set_target_properties(groceries PROPERTIES FOLDER GROCERIES/CORE)
 target_include_directories(groceries PUBLIC ${GROCERIES_INCLUDEDIR})
 
 # FETCH DEPENDENCIES
-message(STATUS "cmd: python deps_fetcher.py")
-execute_process(COMMAND "python" "./deps_fetcher.py"
+execute_process(COMMAND python depo.py
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-	RESULT_VARIABLE fetch_result
 )
-message(STATUS "command returned ${fetch_result}")
 
 # LOFX
 add_subdirectory(${EXTERNALS_DIR}/lofx)
