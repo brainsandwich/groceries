@@ -12,14 +12,13 @@ namespace grcs {
 
 	struct Composite {
 		lut::UUID uuid = lut::UUID::Null;
-		lut::storage::Market* market = nullptr;
-		Thesaurus* thesaurus = nullptr;
 		std::unordered_map<std::type_index, lut::storage::handle_t> components;
 
+		static const Composite Null;
+
 		Composite() {}
-		Composite(const lut::UUID& uuid, lut::storage::Market* market)
-			: uuid(uuid)
-			, market(market) {}
+		Composite(const lut::UUID& uuid)
+			: uuid(uuid) {}
 
 		template <typename T, typename ... Args>
 		void attach(Args&& ... args) {
@@ -27,7 +26,8 @@ namespace grcs {
 			if (components.count(tid))
 				return;
 
-			components[tid] = thesaurus->components_market->create<T>(*this, std::forward<Args>(args) ...);
+			components[tid] = Thesaurus::components_market->create<T>(std::forward<Args>(args) ...);
+			get<T>().parent = this;
 		}
 
 		template <typename T>
@@ -36,26 +36,26 @@ namespace grcs {
 			if (!components.count(tid))
 				return;
 
-			market->release<T>(components[tid]);
+			Thesaurus::components_market->release<T>(components[tid]);
 			components.erase(tid);
 		}
 
 		template <typename T>
 		T& get() {
 			auto tid = std::type_index(typeid(T));
-			return market->get<T>(components[tid]);
+			return Thesaurus::components_market->get<T>(components[tid]);
 		}
 
 		template <typename T>
 		const T& get() const {
 			auto tid = std::type_index(typeid(T));
-			return market->get<T>(components[tid]);
+			return Thesaurus::components_market->get<T>(components[tid]);
 		}
 
 		template <typename T>
 		bool contains() {
 			auto tid = std::type_index(typeid(T));
-			return components.count(tid) && market->isvalid<T>(components[tid]);
+			return components.count(tid) && Thesaurus::components_market->isvalid<T>(components[tid]);
 		}
 	};
 
@@ -67,6 +67,11 @@ namespace grcs {
 		static void clear();
 		static Composite& createComposite();
 		static void destroyComposite(Composite& composite);
+	};
+
+	struct Component {
+		Composite* parent;
+		virtual ~Component() {}
 	};
 
 }

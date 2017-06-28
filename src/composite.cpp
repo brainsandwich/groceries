@@ -13,10 +13,12 @@ namespace grcs {
 
 	Composite& Thesaurus::createComposite() {
 		lut::UUID uuid = lut::UUID::random();
-		composites[uuid] = Composite(uuid, components_market.get());
+		composites[uuid] = Composite(uuid);
 		Pigeon::send("composite-created", uuid);
 		return composites[uuid];
 	}
+
+	const Composite Composite::Null;
 
 	void Thesaurus::destroyComposite(Composite& composite) {
 		for (auto& pair : composite.components)
