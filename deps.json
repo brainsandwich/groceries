@@ -5,7 +5,7 @@
 		{
 			"name" : "lofx",
 			"branch" : "master",
-			"origin" : "C:\\Users\\brainsandwich\\Documents\\dev\\polypack\\lofx"
+			"origin" : "https://github.com/brainsandwich/lofx.git"
 		}
 	]
 }
