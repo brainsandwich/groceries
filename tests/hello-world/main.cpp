@@ -71,7 +71,7 @@ struct WeaponProperties {
 	}
 };
 
-struct Weapon {
+struct WeaponSheet {
 	std::string name = "";
 	std::string desc = "";
 	uint32_t flags = WeaponType::Instant;
@@ -91,7 +91,7 @@ struct ItemTarget {
 	static const uint32_t CasterArea = 0x1 << 5;
 };
 
-struct Item {
+struct ItemSheet {
 	std::string name = "";
 	std::string desc = "";
 	uint32_t flags = ItemType::Passive | ItemTarget::Caster;
@@ -106,8 +106,8 @@ struct Unit : grcs::Component {
 	// formal properties
 	UnitSheet* sheet = nullptr;
 	std::vector<UnitProperties> modifiers;
-	std::vector<Item*> items;
-	Weapon* weapon = nullptr;
+	std::vector<ItemSheet*> items;
+	WeaponSheet* weapon = nullptr;
 	bool properties_changed = true;
 
 	// temporary properties
@@ -170,21 +170,21 @@ int main(int argc, char** argv) {
 	cmp.attach<Position>();
 	cmp.attach<Unit>();
 
-	Weapon sword;
+	WeaponSheet sword;
 	sword.name = "Longsword";
 	sword.desc = "Classic vintage sword";
 	sword.flags = WeaponType::Instant;
 	sword.properties.distance = 1.5f;
 	sword.properties.damage = 27;
 
-	Weapon bare;
+	WeaponSheet bare;
 	bare.name = "No weapon";
 	bare.desc = "This unit uses any kind of limb to fight";
 	bare.flags = WeaponType::Instant;
 	bare.properties.distance = 1.5f;
 	bare.properties.damage = 0;
 
-	Item gauntlets;
+	ItemSheet gauntlets;
 	gauntlets.name = "Leather Gauntlets";
 	gauntlets.desc = "Classic vintage signature gauntlets";
 	gauntlets.unit_modifiers.armor = 2;
