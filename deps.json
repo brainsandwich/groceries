@@ -1,11 +1,15 @@
 {
-	"path" : "external",
+	"download-path" : "external/sources",
+	"build-path" : "external/build",
+	"output-path" : "external/output",
+	"generator" : "Visual Studio 15 2017 Win64",
 	"packages" :
 	[
 		{
-			"name" : "lofx",
+			"name" : "lut",
 			"branch" : "master",
-			"origin" : "https://github.com/brainsandwich/lofx.git"
+			"origin" : "https://github.com/brainsandwich/lut.git",
+			"build" : false
 		}
 	]
 }
